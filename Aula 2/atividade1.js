@@ -13,7 +13,10 @@ class StringManipulations {
      * @param  {String} subStr  substring to be matched
      * @return {String}
      */
-    findFirstMatch(subStr) {}
+    findFirstMatch(subStr) {
+        const first = subStr.split(' ')[0]
+        return first
+    };
 
 
     /**
@@ -21,7 +24,11 @@ class StringManipulations {
      * @param  {String} subStr  substring to be matched
      * @return {String}
      */
-    findLastMatch(subStr) {}
+    findLastMatch(subStr) {
+        let last = subStr.split(',')[0]
+        last = last.split(' ')
+        return last[last.length - 1];
+    };
 
     /**
      * Returns the fsubstring between two given other strings
@@ -29,7 +36,12 @@ class StringManipulations {
      * @param  {String} subStr2  ending of the match
      * @return {String}
      */
-    substringBetweenMatches(subStr1, subStr2) {}
+    substringBetweenMatches(subStr1, subStr2) {
+        let combined = subStr1.split(' ')[0]
+        combined = combined + ' ' + subStr2.split(' ')[0]
+        return combined;
+
+    }
 
     /**
     Given the string attribute of the class, 
@@ -55,3 +67,5 @@ class StringManipulations {
     fix_start(str1) {}
 
 }
+
+module.exports = StringManipulations;
