@@ -52,7 +52,18 @@ class StringManipulations {
     * @return {String}
     */
     both_ends() {
+        let result = '';
 
+        if (this.string.length < 2) {
+            return result
+        } else{
+            let position1 = this.string.length - 2;
+            let position2 = this.string.length;
+            let init = this.string.substring(0, 2);
+            let final = this.string.substring(position1, position2);
+            result = init + final;
+            return result;
+        }
     }
 
     /**
@@ -64,7 +75,17 @@ class StringManipulations {
     * @param  {String} str1  
     * @return {String}
     */
-    fix_start(str1) {}
+    fix_start(str1) {
+        const firstChar = str1.substring(0, 1);
+        var char = new RegExp(firstChar, 'gi');
+        let aux = '';
+        let hidden = '';        
+        
+        aux = str1.replace(char, '');
+        hidden = firstChar + aux
+
+        return hidden
+    }
 
 }
 

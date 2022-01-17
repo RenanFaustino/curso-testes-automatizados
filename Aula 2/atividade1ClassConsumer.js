@@ -14,7 +14,7 @@ class AdressMatcher {
      /**
      * Searches for the first street name in the given address
      * @param  {string} streetName to be found in the address
-     * @return street name if found in address string
+     * @return street first name if found in address string
      */
      findStreetFirstName(streetName){
          return this.stringM.findFirstMatch(streetName);
@@ -23,20 +23,28 @@ class AdressMatcher {
     /**
      * Searches for the street last name in the given address
      * @param  {string} streetName to be found in the address
-     * @return street name if found in address string
+     * @return street last name if found in address string
      */
     findStreetLastName(streetName){
         return this.stringM.findLastMatch(streetName);
     }
 
     /**
-     * Searches for the the first word of 2 strings
+     * Searches for the the first words of 2 strings
      * @param  {String} subStr1  first name of street
      * @param  {String} subStr2  first name of neighborhood
      * @return the 2 found words
      */
     findStreetFNameAndNeighborhoodFName(streetFName, neighborhoodFName){
         return this.stringM.substringBetweenMatches(streetFName, neighborhoodFName);
+    }
+
+    /**
+     * Searches for the first 2 and the last 2 chars of the original string
+     * @return the found chars
+     */
+     findBothInitAndEnds(){
+        return this.stringM.both_ends();
     }
 
      /**
