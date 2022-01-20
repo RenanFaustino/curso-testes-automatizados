@@ -9,7 +9,6 @@ describe("String Manipulations class", () => {
         string2 = ('Satélite Íris');
 
         address = ('Don Pedro Primeiro, Jd das Palmeiras');
-        addressToHide = ('Av. Moacir Novaes');
         stringM = new AdressMatcher(classString1);
         stringM2 = new AdressMatcher(classString2);
     });
@@ -53,10 +52,10 @@ describe("String Manipulations class", () => {
 
     it('Should returns the street name with hidden chars for security', () => {
         // arrange
-        const output = 'Av. Mocir Noves';
+        const output = 'Don Pero Primeiro, J as Palmeiras';
 
         //act
-        const actual = stringM.hideStreetName(addressToHide);
+        const actual = stringM.hideStreetName(address);
 
         //assert
         expect(actual).toEqual(output);
