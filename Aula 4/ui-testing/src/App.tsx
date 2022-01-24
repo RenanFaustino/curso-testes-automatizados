@@ -3,86 +3,49 @@ import './App.css';
 import { useState } from 'react';
 
 const App = () => {
-
+  interface Skill {
+    skill: string;
+    developers: string;
+    technologies: string;
+    roles: string;
+  }
+  
   const [skill, setSkill] = useState<string>();
   const [developers, setDevelopers] = useState<string>();
   const [technologies, setTechnologies] = useState<string>();
   const [roles, setRoles] = useState<string>();
-  // const [skillsData, setSkillsData] = useState([{
-  //   "skillName": "",
-  //   "developers": [],
-  //   "profile": {
-  //     "technologies": [],
-  //     "roles": []
-  //   }
-  // }]);
+  const [skillsData, setSkillsData] = useState<Skill[]>([]);
 
-  // let listSkills = skillsData.map((skill, index) =>
-  //     <ul key={index}>
-  //       <li>Skill Name: {skill.skillName}</li>
-  //       <li>Developers:
-  //         <ul>
-  //         <li>{skill.developers[0]}</li>
-  //         <li>{skill.developers[1]}</li>
-  //         </ul>
-  //       </li>
-  //       <li>Technologies:
-  //         <ul>
-  //         <li>{skill.profile.technologies[0]}</li>
-  //         <li>{skill.profile.technologies[1]}</li>
-  //         </ul>
-  //       </li>
-  //     </ul>);
-
-  // let name = <><h3>{skillData.skillName}</h3>
-  //   <ul>
-  //   <li>Skill Name: {skillData.skillName}</li>
-  //   <li>Developers:
-  //     <ul>
-  //       <li>{skillData.developers[0]}</li>
-  //       <li>{skillData.developers[1]}</li>
-  //     </ul>
-  //   </li>
-  //   <li>Technologies:
-  //     <ul>
-  //       <li>{skillData.profile.technologies[0]}</li>
-  //       <li>{skillData.profile.technologies[1]}</li>
-  //     </ul>
-  //   </li>
-  // </ul></>;
-  
-  // function loadSkill() {
-  //   setShowSkill(true);
-  //   setShowSkills(false);
-  //   fetch('https://61e4d942595afe00176e51cb.mockapi.io/api/v1/skill')
-  //       .then(response => response.json())
-  //     .then(data => {
-  //       setSkillData(data[0]);
-  //       });
-  // }
-  // function loadSkills() {
-  //   setShowSkill(false);
-  //   setShowSkills(true);
-  //   fetch('https://61e4d942595afe00176e51cb.mockapi.io/api/v1/skills')
-  //       .then(response => response.json())
-  //     .then(data => {
-  //       setSkillsData(data);
-  //       });
-  // }
-
-  function onAddSkill() {
-    const payload = {
-      skill,
-      developers,
-      technologies,
-      roles
-    }
-
-    console.log(payload)
+  function loadSkill() {
+    fetch('http://localhost:3333/skills')
+        .then(response => response.json())
+      .then(data => {
+        setSkillsData(data);
+      });
   }
 
+  const onAddSkill = async () => {
+    const response = await fetch('http://localhost:3333/skills', {
+      body: JSON.stringify({
+        skill,
+        developers,
+        technologies,
+        roles
+      }),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+    });
+
+    if (response.ok) {
+      loadSkill();
+    }
+  }
+  
   return (
-      <div className="App">
+    <div className="App">
         <header className="App-header">
           <h1>
             Developers App
@@ -102,6 +65,22 @@ const App = () => {
       <input id="roles" className='input1' onChange={(e) => setRoles(e.target.value)} />
       
       <a id="add-button" className="button1" onClick={onAddSkill}>Add Skill</a>
+      <div>
+        <div>
+          <div>Skill Name</div>
+          <div>Developers</div>
+          <div>Technologies</div>
+          <div>Roles</div>
+        </div>
+        {skillsData.map((item, index) => (
+        <div key={index}>
+          <div>{item.skill}</div>
+          <div>{item.developers}</div>
+          <div>{item.technologies}</div>
+          <div>{item.roles}</div>
+        </div>
+        ))}
+      </div>
     </div>
     );
 }
