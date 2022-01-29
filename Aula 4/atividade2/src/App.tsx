@@ -1,36 +1,46 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import './App.css';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { usePromiseTracker, trackPromise } from 'react-promise-tracker';
 interface Skill {
-  skill: string;
-  developers: string;
-  technologies: string;
-  roles: string;
+  skillName: string;
+  developers: string[];
+  profile: {
+    technologies: string[];
+    roles: string[];
+  }
 }
 
 const App = () => {
+  const { promiseInProgress: isLoading } = usePromiseTracker();
   
-  const [skill, setSkill] = useState<string>();
-  const [developers, setDevelopers] = useState<string>();
-  const [technologies, setTechnologies] = useState<string>();
-  const [roles, setRoles] = useState<string>();
   const [skillsData, setSkillsData] = useState<Skill[]>([]);
+  const [skill, setSkill] = useState<string>("");
+  const [dev, setDev] = useState<string>("");
+  const [tech, setTech] = useState<string>("");
+  const [role, setRole] = useState<string>("");
 
-  useEffect(() => {
-    loadSkill()
-  }, [])
-
-  //https://61e4d942595afe00176e51cb.mockapi.io/api/v1/skills
   function loadSkill() {
-    fetch('https://61e4d942595afe00176e51cb.mockapi.io/api/v1/skills')
-        .then(response => response.json())
-      .then(data => {
-        setSkillsData(data);
-      });
+    trackPromise(
+      fetch('https://61e4d942595afe00176e51cb.mockapi.io/api/v1/skills')
+          .then(response => response.json())
+        .then(data => {
+          setSkillsData(data);
+        }
+      )
+    )
+  }
+
+  function checkButtonDisabled() {
+    if(([skill, dev, tech, role]).includes("")) {
+      return true
+    }
+    return false
   }
 
   const onAddSkill = async (event: React.SyntheticEvent<HTMLButtonElement>) => {
-      loadSkill();
+    console.log("oi")
+    loadSkill();
   }
   
   return (
@@ -41,34 +51,36 @@ const App = () => {
         </h1>
       </header>
 
-      <div className='container'>
-        <div className="form">
-          <div className='grid'>
-            <label htmlFor="skill">Skill Name</label>
-            <label htmlFor="developers">Developers</label>
-            <label htmlFor="technologies">Technologies</label>
-            <label htmlFor="roles">Roles</label>
-          </div>
+      <table className='container'>
+        <thead>
+          <tr>
+            <th>Skill Name</th>
+            <th>Developers</th>
+            <th>Technologies</th>
+            <th>Roles</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr className='grid input'>
+            <td><input id="skill" className='input1' value={skill} onChange={(e) => setSkill(e.target.value)} /></td>
+            <td><input id="developers" className='input1' value={dev} onChange={(e) => setDev(e.target.value)} /></td>
+            <td><input id="technologies" className='input1' value={tech} onChange={(e) => setTech(e.target.value)} /></td>
+            <td><input id="roles" className='input1' value={role} onChange={(e) => setRole(e.target.value)} /></td>
+            <td><button type="submit" id="add-button" disabled={checkButtonDisabled()} onClick={onAddSkill} className="button1">Add Skill</button></td>
+          </tr>
 
-          <div className='grid'>
-            <input id="skill" className='input1' onChange={(e) => setSkill(e.target.value)} />
-            <input id="developers" className='input1' onChange={(e) => setDevelopers(e.target.value)} />
-            <input id="technologies" className='input1' onChange={(e) => setTechnologies(e.target.value)} />
-            <input id="roles" className='input1' onChange={(e) => setRoles(e.target.value)} />
-            <button type="submit" id="add-button" onClick={onAddSkill} className="button1">Add Skill</button>
-          </div>
-          
-        </div>
-
-        {skillsData.map((item, index) => (
-          <div className='grid data' key={index}>
-            <div>{item.skill}</div>
-            <div>{item.developers}</div>
-            <div>{item.technologies}</div>
-            <div>{item.roles}</div>
-          </div>
+        {isLoading 
+          ? <p>Loading...</p>
+          : skillsData.map((item, index) => (
+          <tr className='grid data' key={index}>
+            <td>{item.skillName}</td>
+            <td>{item.developers.map((developer: string) => <span>{developer}</span>)}</td>
+            <td>{item.profile.technologies.map((technology: string) => <span>{technology}</span>)}</td>
+            <td>{item.profile.roles.map((role: string) => <span>{role}</span>)}</td>
+          </tr>
         ))}
-      </div>
+        </tbody>
+      </table>
     </div>
   );
 }

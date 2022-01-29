@@ -23,6 +23,7 @@
   align-items: center;
   font-size: calc(10px + 2vmin);
   color: #ffffff;
+  padding: 16px;
 }
 
 .App-link {
@@ -41,14 +42,33 @@ li {
   margin-bottom: 24px;
 }
 
-.container .grid {
+.container th {
+  text-align: start;
+}
+
+.container tr {
   display: grid;
-  grid-template-columns: repeat(4, 280px);
+  grid-template-columns: repeat(4, 250px);
+  text-align: start;
   gap: 16px;
 }
 
-.container .grid button {
+.container tbody {
+  font-size: 1.5rem;
+}
+
+.container td {
+  display: flex;
+  flex-direction: column;
+}
+
+.container .grid td:nth-child(5) {
   grid-column-start: 5;
+}
+
+.upper-data-border {
+  margin-top: 16px;
+  border-bottom: 1px solid white;
 }
 
 .container .grid.data {
@@ -56,6 +76,12 @@ li {
   margin-top: 8px;
   padding-bottom: 8px;
   border-bottom: 1px solid white;
+}
+
+tbody tr:nth-child(2).grid.data {
+  margin-top: 16px;
+  padding-top: 8px;
+  border-top: 1px solid white;
 }
 
 .form {
@@ -75,7 +101,9 @@ input.input1 {
 
 .button1 {
   display: inline-block;
-  padding: 0.35em 1.8em;
+  min-width: 160px;
+  min-height: 52px;
+  padding: 0 1em;
   border: 0.1em solid #ffffff;
   border-radius: 0.12em;
   box-sizing: border-box;
@@ -89,15 +117,32 @@ input.input1 {
   transition: all 0.2s;
 }
 
-button.button1:hover {
+button.button1:enabled:hover {
   color: #000000;
   background-color: #ffffff;
+}
+
+button.button1:active {
+  color: #000000;
+  background-color: #ffffffd0;
+  box-shadow: 5px 5px rgba(255, 255, 255, 0.2);
+}
+
+button.button1:disabled {
+  border: 0.1em solid #9e9e9e;
+  color: #9e9e9e;
 }
 
 @media all and (max-width: 30em) {
   a.button1 {
     display: block;
     margin: 0.4em auto;
+  }
+}
+
+@media all and (max-width: 1230px) {
+  .App {
+    width: max-content;
   }
 }
 
