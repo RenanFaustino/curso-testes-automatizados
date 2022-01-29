@@ -32,17 +32,16 @@ class Developers {
             .should('have.text', label)
     };
 
-    /**
-     * @param {string} labels - string vector
-     */
     validateAllFieldsLabel(labels){
         for (let i = 0; i < labels.length; i++) {
             this.validateFieldLabel(labels[i], i)
         }
     }
 
-    getSkillListDataByColumnAndRow(column, rowindex){
-        return cy.get('[class="grid data"]').eq(column).find('div').eq(rowindex);
+    validateSkillListDataByColumnAndRow(rowindex, column, values){
+        for (let i = 0; i < values.length; i++) {
+            cy.get('[class="grid data"]').eq(rowindex).find('td').eq(column).should('contains.text', values[i]);
+        }
     };
 }
 
