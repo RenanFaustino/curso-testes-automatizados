@@ -9,7 +9,7 @@ describe('Test App Developers Skills', () => {
     });
 
 
-        it('should validate the fields on header', () => {
+        it('should validate the fields and header', () => {
             //validate header
             Developers.validateHeader('Developers App')
 
@@ -17,12 +17,15 @@ describe('Test App Developers Skills', () => {
             Developers.validateAllFieldsLabel(data.Labels);
             
             //validate Add Skill button
-            Developers.getAddButton().should('be.visible');
+            cy.getAddButton().should('be.visible');
         });
 
-        it('should load skills list as the button is clicked', () => {
+        it.skip('should load skills list as the button is clicked', () => {
+            //fill all input fields
+            Developers.fillAllFields(data.SkillName, data.Developers, data.Technologies, data.Roles);
+
             //click in te add button
-            cy.clickAddButton();
+            cy.getAddButton().click();
 
             //validate if this list of skill is visible
             Developers.getSkillList().should('be.visible');

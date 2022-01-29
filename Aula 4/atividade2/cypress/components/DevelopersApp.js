@@ -25,11 +25,11 @@ class Developers {
         return cy.get('[class="App-header"]').contains(value);
     };
 
-    validateFieldLabel(label){
+    validateFieldLabel(label, index){
             cy.get('[class="container"]')
-            .find('[class="form"]')
-            .find('[class="grid"]')
-            .should('contains.text', label)
+            .find('th')
+            .eq(index)
+            .should('have.text', label)
     };
 
     /**
@@ -37,7 +37,7 @@ class Developers {
      */
     validateAllFieldsLabel(labels){
         for (let i = 0; i < labels.length; i++) {
-            this.validateFieldLabel(labels[i])
+            this.validateFieldLabel(labels[i], i)
         }
     }
 
