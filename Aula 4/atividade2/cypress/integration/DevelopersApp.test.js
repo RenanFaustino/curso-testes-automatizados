@@ -66,10 +66,10 @@ describe('Test App Developers Skills', () => {
 
             //verify item of list by column and row index
             Developers.getSkillList().should('be.visible');
-            Developers.validateSkillListDataByColumnAndRow( 0, skillName, data.defaultSkillName)
-            Developers.validateSkillListDataByColumnAndRow( 0, developers, data.defaultDevelopers)
-            Developers.validateSkillListDataByColumnAndRow( 0, technologies, data.defaultTechnologies)
-            Developers.validateSkillListDataByColumnAndRow( 0, roles, data.defaultRoles)
+            Developers.validateSkillListDataByRowAndColumn( 0, skillName, data.defaultSkillName)
+            Developers.validateSkillListDataByRowAndColumn( 0, developers, data.defaultDevelopers)
+            Developers.validateSkillListDataByRowAndColumn( 0, technologies, data.defaultTechnologies)
+            Developers.validateSkillListDataByRowAndColumn( 0, roles, data.defaultRoles)
             
         });
 });

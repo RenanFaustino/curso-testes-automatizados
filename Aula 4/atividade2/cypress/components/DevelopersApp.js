@@ -38,7 +38,7 @@ class Developers {
         }
     }
 
-    validateSkillListDataByColumnAndRow(rowindex, column, values){
+    validateSkillListDataByRowAndColumn(rowindex, column, values){
         for (let i = 0; i < values.length; i++) {
             cy.get('[class="grid data"]').eq(rowindex).find('td').eq(column).should('contains.text', values[i]);
         }
