@@ -11,16 +11,32 @@ function setup() {
 
 class Page {
   appElements: any;
-  input: any;
   header: any;
+  inputList: any;
   button: any;
+
+  private findOnBodyFirstRow(element: any) {
+    return element.find((el: { type: string; }) => el.type === 'table')
+    .props.children.find((el: { type: string; }) => el.type === 'tbody')
+    .props.children.find((el: { type: string; }) => el.type === 'tr')
+    .props.children
+  }
+
+  private getInputList(elementList: any[]) {
+    return elementList
+      .filter(element => element.props.children.type === "input")
+      .map(element => element.props.children)
+  }
+
+  private getButton(element: any) {
+    return element.props.children
+  }
   
   constructor(component: any) {
     this.appElements = component.getElement().props.children;
-    this.input = this.appElements.find((el: { type: string; }) => el.type === 'input');
     this.header = this.appElements.find((el: { type: string; }) => el.type === 'header');
-    this.button = this.appElements.find((el: { type: string; }) => el.type === 'a');
-  
+    this.inputList = this.getInputList(this.findOnBodyFirstRow(this.appElements));
+    this.button = this.getButton(this.findOnBodyFirstRow(this.appElements)[4]);
   }
 }
 
@@ -30,10 +46,12 @@ test('header Developers App to be on screen', () => {
   expect(developerText).toBeInTheDocument();
 });
 
-test('input label to be on screen', () => {
+test('columns headers to be on screen', () => {
   render(<App />);
-  const labelText = screen.getByText(/Type the skill you would like to search/);
-  expect(labelText).toBeInTheDocument();
+
+  const output = ["Skill Name", "Developers", "Technologies", "Roles"]
+  const headers = screen.getAllByRole("columnheader");
+  headers.forEach((header, index) => expect(header).toHaveTextContent(output[index]))
 });
 
 describe('Test page object', () => {
@@ -41,17 +59,13 @@ describe('Test page object', () => {
   const component = setup();
   const page = new Page(component);
 
-  test('elements are created correctly', () => {
-    expect(page.input.props.id).toBe('input-skill');
-    expect(page.input.props.className).toBe('input1');
-    expect(page.header.props.className).toBe('App-header');
+  test('input fields are created correctly', () => {
+    page.inputList.forEach((input: any) => {
+      expect(input.props.className).toBe('input1');
+    })
   });
   
   test('buttons are created correctly', () => {
-    expect(page.button.props.id).toBe('search-button');
-  });
-  
-  test('elements are created correctly page object', () => {
-    expect(page.input.props.id).toBe('input-skill');
+    expect(page.button.props.id).toBe('add-button');
   });
 });
