@@ -1,3 +1,4 @@
+/* eslint-disable cypress/no-unnecessary-waiting */
 /* eslint-disable testing-library/await-async-utils */
 import Developers from '../components/DevelopersApp.js';
 
@@ -38,8 +39,7 @@ describe('Test App Developers Skills', () => {
             cy.getAddButton().click();
 
             //wait for the skill list load
-            cy.intercept('GET', '**/skill*').as('skillList')
-            cy.wait('@skillList')
+            cy.wait(500)
 
             //validate if this list of skill is visible
             Developers.getSkillList().should('be.visible');
@@ -61,8 +61,7 @@ describe('Test App Developers Skills', () => {
             cy.getAddButton().click();
 
             //wait for the skill list load
-            cy.intercept('GET', '**/skill*').as('skillList')
-            cy.wait('@skillList')
+            cy.wait(500)
 
             //verify item of list by column and row index
             Developers.getSkillList().should('be.visible');
